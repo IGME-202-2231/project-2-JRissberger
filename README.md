@@ -88,9 +88,8 @@ _A brief explanation of this agent._
 - _List all the ways this agent can transition to this state_
 
 ## Sources
-
--   _List all project sources here –models, textures, sound clips, assets, etc._
--   _If an asset is from the Unity store, include a link to the page and the author’s name_
+Agent 1: https://voodoomoose.itch.io/free-fish-icons
+Agent 2: https://voodoomoose.itch.io/free-fish-icons
 
 ## Make it Your Own
 
