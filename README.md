@@ -10,8 +10,8 @@ _REPLACE OR REMOVE EVERYTING BETWEEN "\_"_
 -   Section: 5
 
 ## Simulation Design
-
-_A brief explanation of your simulation._
+A fishtank with two different types of fish. One type tends to flock together, and must be fed by the user. The other type tends to avoid
+others of its kind, and will occasionally chase away other fish that get too close.
 
 ### Controls
 
@@ -19,81 +19,89 @@ _A brief explanation of your simulation._
     -   _Include how to preform each action ( keyboard, mouse, UI Input )_
     -   _Include what impact an action has in the simulation ( if is could be unclear )_
 
-## _Agent 1 Name_
+## Small Fish
 
-_A brief explanation of this agent._
+A small, peaceful fish. It sticks together with others, and must be 
+fed by the user.
 
-### _State 1 Name_
-
-**Objective:** _A brief explanation of this state's objective._
+### Wander and flock
+The fish wander around, flocking together with others. It will move in the general
+direction of food that it spots, and avoid larger fish.
 
 #### Steering Behaviors
 
-- _List all behaviors used by this state_
-   - _If behavior has input data list it here_
-   - _eg, Flee - nearest Agent2_
+- Wander
+- Flock
+- Seek (food)
+- Flee (from larger fish)
 - Obstacles - _List all obstacle types this state avoids_
 - Seperation - _List all agents this state seperates from_
    
 #### State Transistions
 
-- _List all the ways this agent can transition to this state_
-   - _eg, When this agent gets within range of Agent2_
-   - _eg, When this agent has reached target of State2_
+-This is the default state
+-The fish will be in this state until it hasn't eaten in a 
+certain amount of time.
    
-### _State 2 Name_
+## Starving
 
-**Objective:** _A brief explanation of this state's objective._
+This state occurs when the fish hasn't eaten in a long time. 
+Its movement is slowed, it no longer follows other fish, and 
+it prioritizes finding food.
 
 #### Steering Behaviors
 
-- _List all behaviors used by this state_
+- Wander
+- Seek (Food) (The weight applied to this force is higher than in the default state)
+- Flee (large fish)
 - Obstacles - _List all obstacle types this state avoids_
 - Seperation - _List all agents this state seperates from_
    
 #### State Transistions
+When the timer tracking how long since the fish has eaten reaches a certain amount, it enters this state. 
+It exits the state once it's eaten.
 
-- _List all the ways this agent can transition to this state_
+## Large Fish
+This fish is larger than the other fish in the tank, and avoids others of its kind. It
+will eat food if it sees it, but isn't at risk of starving like the other fish. 
+If smaller fish get near it, it will chase them.
 
-## _Agent 2 Name_
-
-_A brief explanation of this agent._
-
-### _State 1 Name_
-
-**Objective:** _A brief explanation of this state's objective._
+### Wander and avoid
+The fish wanders the tank, eating food it comes across and avoiding others.
 
 #### Steering Behaviors
 
-- _List all behaviors used by this state_
+- Wander
+- Seek (food) (low force weight)
+- Flee (other large fish)
 - Obstacles - _List all obstacle types this state avoids_
 - Seperation - _List all agents this state seperates from_
    
 #### State Transistions
-
-- _List all the ways this agent can transition to this state_
+This is the default state, and the large fish will be in it whenever it is far away from 
+any smaller fish.
    
-### _State 2 Name_
-
-**Objective:** _A brief explanation of this state's objective._
+### Chasing
+A smaller fish has gotten too near to the large fish, and the large fish is 
+now chasing it. The chase continues until the small fish gets too far away, or 
+the large fish loses interest (chase timer runs out).
 
 #### Steering Behaviors
 
-- _List all behaviors used by this state_
+- Pursue (small fish)
 - Obstacles - _List all obstacle types this state avoids_
 - Seperation - _List all agents this state seperates from_
    
 #### State Transistions
-
-- _List all the ways this agent can transition to this state_
+This state is entered when a small fish is within a certain distace of the large fish.
+If there are multiple small fish meeting this criteria, the large fish prioritizes the first one.
 
 ## Sources
-
--   _List all project sources here –models, textures, sound clips, assets, etc._
--   _If an asset is from the Unity store, include a link to the page and the author’s name_
+Small fish: https://voodoomoose.itch.io/free-fish-icons
+Large fish: https://voodoomoose.itch.io/free-fish-icons
 
 ## Make it Your Own
-
+Sound effects, creating environment art
 - _List out what you added to your game to make it different for you_
 - _If you will add more agents or states make sure to list here and add it to the documention above_
 - _If you will add your own assets make sure to list it here and add it to the Sources section
