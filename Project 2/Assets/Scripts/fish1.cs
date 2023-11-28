@@ -44,6 +44,9 @@ public class fish1 : MonoBehaviour
     [SerializeField]
     float separateRange = 1f;
 
+    [SerializeField]
+    float avoidTime = 1f;
+
     Vector3 totalForce = Vector3.zero;
 
     void Start()
@@ -72,7 +75,7 @@ public class fish1 : MonoBehaviour
         //Cap max velocity
         velocity = Vector3.ClampMagnitude(velocity, maxSpeed);
 
-        //CheckBounds();
+        CheckBounds();
 
         position += velocity * Time.deltaTime;
 
@@ -209,4 +212,21 @@ public class fish1 : MonoBehaviour
 
         return steeringForce;
     }
+
+
+    private void OnDrawGizmosSelected()
+    {
+        Vector3 futurePos = CalcFuturePosition(time);
+
+        float dist = Vector3.Distance(transform.position, futurePos);
+        Vector3 boxSize = new Vector3(radius * 2f, dist, radius * 2f);
+        Vector3 boxCenter = transform.position; //Vector3.zero;
+        boxCenter.y += dist / 2f;
+
+        Gizmos.color = Color.green;
+        Gizmos.matrix = transform.localToWorldMatrix;
+        Gizmos.DrawWireCube(boxCenter, boxSize);
+        
+    }
+
 }
