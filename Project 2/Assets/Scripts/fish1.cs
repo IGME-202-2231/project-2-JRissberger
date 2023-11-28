@@ -49,6 +49,8 @@ public class fish1 : MonoBehaviour
 
     Vector3 totalForce = Vector3.zero;
 
+    public List<obstacle> obstacles;
+
     void Start()
     {
         //maybe finds the manager?
