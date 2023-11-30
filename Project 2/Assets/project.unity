@@ -224,7 +224,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1955891052}
-  - component: {fileID: 1955891051}
+  - component: {fileID: 1955891053}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -232,21 +232,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1955891051
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1955891050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b239b41f4a11de4bb4b75d62436c6d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fish1GOList: []
-  fish1List: []
-  fishType1: {fileID: 3809546281861482048, guid: 83ee401885cbbc943a99b2710b02a427, type: 3}
 --- !u!4 &1955891052
 Transform:
   m_ObjectHideFlags: 0
@@ -262,3 +247,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1955891053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1955891050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b239b41f4a11de4bb4b75d62436c6d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fish1GOList: []
+  fish1List: []
+  fishType1: {fileID: 0}
+  numberOfFish: 10

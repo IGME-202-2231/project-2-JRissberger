@@ -15,16 +15,13 @@ public class fish1 : MonoBehaviour
     AgentManager manager;
 
     [SerializeField]
-    float time = 1f;
+    float time = 2f;
 
     [SerializeField]
-    float radius = 1f;
+    float radius = 0.5f;
 
     [SerializeField]
     private Vector3 position;
-
-    [SerializeField]
-    private Vector3 direction;
 
     [SerializeField]
     private Vector3 velocity;
@@ -47,9 +44,22 @@ public class fish1 : MonoBehaviour
     [SerializeField]
     float avoidTime = 1f;
 
+    //weights
+    float wanderWeight = 10f;
+    float boundsWeight = 8f;
+    float cohesionWeight = 5f;
+    float separateWeight = 1f;
+
+    Vector3 direction = Vector3.zero;
+
     Vector3 totalForce = Vector3.zero;
 
     public List<obstacle> obstacles;
+
+    Vector3 flockDirection = Vector3.zero;
+
+    //"timer" for checking for state change
+    float timer = 1f;
 
     void Start()
     {
@@ -57,27 +67,53 @@ public class fish1 : MonoBehaviour
         managerGO = GameObject.Find("Manager");
 
         manager = managerGO.GetComponent<AgentManager>();
+
+        //Sets a random time for timer
+        timer = Random.Range(5, 20);
     }
 
     void Update()
     {
-        totalForce += Separate() * 0.1f;
-
         //wandering movement
         if (state == "wander")
         {
-            totalForce += (Wander(time, radius));
-            totalForce += StayInBounds() * 0.3f;
+            totalForce += (Wander(time, radius)) * wanderWeight;
+            totalForce += StayInBounds() * boundsWeight;
+            totalForce += Separate() * separateWeight;
+            totalForce = totalForce + (Cohesion() * cohesionWeight);
+
+            //TODO: checking flee status with jellyfish
+
             ApplyForce(totalForce);
+
+            //reduces timer each second
+            /*timer -= 1 * Time.deltaTime;
+            
+
+            //checks if timer is zero, changes state if so
+            if (timer <= 0)
+            {
+                state = "starving";
+            } */
         }
+
+        //Seeking food
+        /*if (state == "starving")
+        {
+            //lower wander rate
+            //no cohesion
+            //slower speed--cut applied force in half
+            //search for food
+            //picks one off list
+            //seeks it
+            
+        } */
 
         // Calculate the velocity for this frame
         velocity += acceleration * Time.deltaTime;
 
         //Cap max velocity
         velocity = Vector3.ClampMagnitude(velocity, maxSpeed);
-
-        CheckBounds();
 
         position += velocity * Time.deltaTime;
 
@@ -88,42 +124,14 @@ public class fish1 : MonoBehaviour
 
         // Zero out acceleration
         acceleration = Vector3.zero;
+
+        totalForce = Vector3.zero;
     }
 
+    //applies forces to object
     public void ApplyForce(Vector3 force)
     {
         acceleration += force / mass;
-    }
-
-    void CheckBounds()
-    {
-        //Left/Right
-        if (position.x <= -9)
-        {
-            velocity.x *= -1f;
-
-            position.x = -9;
-        }
-        else if (position.x >= 9)
-        {
-            velocity.x *= -1f;
-
-            position.x = 9;
-        }
-
-        //Up/Down
-        if (position.y <= -4)
-        {
-            velocity.y *= -1f;
-
-            position.y = -4;
-        }
-        else if (position.y >= 4)
-        {
-            velocity.y *= -1f;
-
-            position.y = 4;
-        }
     }
 
     public Vector3 Seek(Vector3 targetPos)
@@ -141,7 +149,7 @@ public class fish1 : MonoBehaviour
         return seekingForce;
     }
 
-    //may need updates
+    //Seeking object
     public Vector3 Seek(GameObject target)
     {
         //Calls the other version of Seek
@@ -150,6 +158,7 @@ public class fish1 : MonoBehaviour
         return Seek(target.transform.position);
     }
 
+    //General random movement
     protected Vector3 Wander(float time, float radius)
     {
         Vector3 targetPos = CalcFuturePosition(time);
@@ -162,6 +171,7 @@ public class fish1 : MonoBehaviour
         return Seek(targetPos);
     }
 
+    //Fleeing from object
     protected Vector3 Flee(Vector3 targetPos)
     {
         Vector3 desiredVelocity = transform.position - targetPos;
@@ -183,6 +193,7 @@ public class fish1 : MonoBehaviour
         return velocity * time + transform.position;
     }
 
+    //Keeping objects in bounds. working in tandem with checkbounds
     protected Vector3 StayInBounds()
     {
         //If out of bounds
@@ -197,7 +208,7 @@ public class fish1 : MonoBehaviour
         return Vector3.zero;
     }
 
-
+    //Split from other objects
     protected Vector3 Separate()
     {
         Vector3 steeringForce = Vector3.zero;
@@ -208,15 +219,67 @@ public class fish1 : MonoBehaviour
 
             if (Mathf.Epsilon < dist)
             {
-                steeringForce += Flee(manager.fish1GOList[i].transform.position) * (separateRange / dist);
+                steeringForce += Flee(manager.fish1GOList[i].transform.position) * (separateRange / (dist));
             }
         }
 
         return steeringForce;
     }
 
+    //Flocking
+    protected Vector3 Cohesion()
+    {
+        if (manager.fish1List.Count > 1)
+        {
+            Vector3 centerPoint = Vector3.zero;
 
-    private void OnDrawGizmosSelected()
+            for (int i = 0; i < manager.fish1List.Count; i++)
+            {
+                //Avoids checking self
+                if (manager.fish1List[i].transform.position == transform.position)
+                {
+                    centerPoint += Vector3.zero;
+                }
+                else
+                {
+                    centerPoint += manager.fish1List[i].transform.position;
+                }
+            }
+
+            centerPoint /= manager.fish1List.Count;
+
+            return Seek(centerPoint);
+        }
+        else
+        {
+            return Vector3.zero;
+        }
+    }
+
+   /* protected Vector3 Alignment()
+    {
+        if (manager.fish1GOList.Count > 1)
+        {
+            Vector3 flockDirection = Vector3.zero;
+
+            foreach (Agent agent in manager.agents)
+            {
+                //Commented out, need direction getter in myPhysicsObject
+                //flockDirection += agent.myPhysicsObject.Direction;
+
+                //to skip checkng self, check if distance is 0
+            }
+
+            flockDirection /= manager.agents.Count;
+
+            return flockDirection - myPhysicsObject.Velocity;
+        }
+        else
+        {
+            return Vector3.zero;
+        }
+    } */
+    /*private void OnDrawGizmosSelected()
     {
         Vector3 futurePos = CalcFuturePosition(time);
 
@@ -229,6 +292,10 @@ public class fish1 : MonoBehaviour
         Gizmos.matrix = transform.localToWorldMatrix;
         Gizmos.DrawWireCube(boxCenter, boxSize);
         
-    }
+    } */
 
+    //method for eating food
+    //loop through food list, check if distance to one is zero
+    //if so, change fish state, reset hunger timer, destroy object from list. check abt specifics for making it null. should
+    //be as easy as just checking the spot on the list.
 }

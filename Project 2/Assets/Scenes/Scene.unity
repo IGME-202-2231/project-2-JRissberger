@@ -154,7 +154,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fish1GOList: []
   fish1List: []
-  fishType1: {fileID: 3809546281861482048, guid: 83ee401885cbbc943a99b2710b02a427, type: 3}
+  fish2GOList: []
+  fish2List: []
+  fishType1: {fileID: 3382886850945451448, guid: 8cd959ad71c52bb439d4cbb32d1dcb21, type: 3}
+  fishType2: {fileID: 2876403083654137186, guid: e516ddb8adaff94479ff5de4c881b5b3, type: 3}
+  numberOfFish1: 7
+  numberOfFish2: 2
 --- !u!4 &135251785
 Transform:
   m_ObjectHideFlags: 0
@@ -277,4 +282,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fish1GOList: []
   fish1List: []
+  fish2GOList: []
+  fish2List: []
   fishType1: {fileID: 0}
+  fishType2: {fileID: 0}
+  numberOfFish1: 7
+  numberOfFish2: 3
