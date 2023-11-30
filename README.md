@@ -31,11 +31,11 @@ direction of food that it spots, and avoid larger fish.
 #### Steering Behaviors
 
 - Wander
-- Flock
+- Cohesion
 - Seek (food)
 - Flee (from larger fish)
 - Obstacles - _List all obstacle types this state avoids_
-- Seperation - _List all agents this state seperates from_
+- Seperation - Separates from other small fish
    
 #### State Transistions
 
@@ -55,7 +55,7 @@ it prioritizes finding food.
 - Seek (Food) (The weight applied to this force is higher than in the default state)
 - Flee (large fish)
 - Obstacles - _List all obstacle types this state avoids_
-- Seperation - _List all agents this state seperates from_
+- Seperation - Separates from larger fish
    
 #### State Transistions
 When the timer tracking how long since the fish has eaten reaches a certain amount, it enters this state. 
