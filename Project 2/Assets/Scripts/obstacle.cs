@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class obstacle : MonoBehaviour
 {
+    //radius of obstacle, used for avoidance purposes
     [SerializeField]
-    public float radius;
+    public float radius = 1f;
 
-    private void OnDrawGizmosSelected()
+    public Vector3 position = Vector3.zero;
+
+    void Start()
     {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, radius);
+        position = transform.position;
     }
 }

@@ -14,6 +14,10 @@ public class AgentManager : MonoBehaviour
     //fish2 agent scripts
     public List<fish2> fish2List;
 
+    //List of obstacles. manually added
+    [SerializeField]
+    public List<obstacle> obstacles;
+
     [SerializeField]
     private GameObject fishType1;
 
@@ -31,7 +35,7 @@ public class AgentManager : MonoBehaviour
     {
         //instantiate agents
         //add to agent list
-        for (int i = 0; i < numberOfFish1; i++) 
+        for (int i = 0; i < numberOfFish1; i++)
         {
             fish1GOList.Add(Instantiate(fishType1, new Vector2(Random.Range(-8, 8), Random.Range(-4, 4)), Quaternion.identity));
         }
@@ -45,7 +49,7 @@ public class AgentManager : MonoBehaviour
         {
             fish1List.Add(fish1GOList[i].GetComponent<fish1>());
         }
-        for (int i = 0; i < fish2GOList.Count;i++)
+        for (int i = 0; i < fish2GOList.Count; i++)
         {
             fish2List.Add(fish2GOList[i].GetComponent<fish2>());
         }
