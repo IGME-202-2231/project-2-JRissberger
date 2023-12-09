@@ -153,29 +153,6 @@ public class agent : MonoBehaviour
         }
     }
 
-    /* protected Vector3 Alignment()
-     {
-         if (manager.fish1GOList.Count > 1)
-         {
-             Vector3 flockDirection = Vector3.zero;
-
-             foreach (Agent agent in manager.agents)
-             {
-                 //Commented out, need direction getter in myPhysicsObject
-                 //flockDirection += agent.myPhysicsObject.Direction;
-
-                 //to skip checkng self, check if distance is 0
-             }
-
-             flockDirection /= manager.agents.Count;
-
-             return flockDirection - myPhysicsObject.Velocity;
-         }
-         else
-         {
-             return Vector3.zero;
-         }
-     } */
 
     //Checks if any obstacles need to be avoided
     protected Vector3 AvoidObstacles(float avoidRange)

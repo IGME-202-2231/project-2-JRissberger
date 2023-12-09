@@ -102,10 +102,6 @@ public class fish2 : agent
     //Checks to see if any fish are nearby. changes agent state if so
     protected GameObject fishCheck()
     {
-        //loop through list of fish
-        //Check for distance
-        //distance under a certain amount? trigger chase status
-        //chase increases max speed
         //returns vector3 of fish position
         for (int i = 0; i < manager.fish1GOList.Count; i++)
         {

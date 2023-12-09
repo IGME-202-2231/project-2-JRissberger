@@ -14,6 +14,7 @@ public class fish1 : agent
     float cohesionWeight = 5f;
     float separateWeight = 1f;
     float obstacleWeight = 5f;
+    float seekWeight = 7f;
     
 
     Vector3 totalForce = Vector3.zero;
@@ -45,33 +46,66 @@ public class fish1 : agent
             totalForce += Separate() * separateWeight;
             totalForce += Cohesion() * cohesionWeight;
             totalForce += AvoidObstacles(avoidTime) * obstacleWeight;
-            //TODO: checking flee status with jellyfish
 
             ApplyForce(totalForce);
             
 
             //reduces timer each second
-            /*timer -= 1 * Time.deltaTime;
+            timer -= 1 * Time.deltaTime;
             
 
             //checks if timer is zero, changes state if so
             if (timer <= 0)
             {
+                maxSpeed = 1;
                 state = "starving";
-            } */
+            } 
         }
 
         //Seeking food
-        /*if (state == "starving")
+        if (state == "starving")
         {
+            bool foundFood = false;
+
             //lower wander rate
-            //no cohesion
-            //slower speed--cut applied force in half
-            //search for food
-            //picks one off list
-            //seeks it
-            
-        } */
+            totalForce += Wander(time, radius) * wanderWeight;
+            totalForce += StayInBounds() * boundsWeight;
+            totalForce += AvoidObstacles(avoidTime) * obstacleWeight;
+
+            //checks if there is any food on the list
+            if (manager.fishFoodList.Count > 0)
+            {
+                //seeks first one on list if so
+                totalForce += Seek(manager.fishFoodList[0]) * seekWeight;
+            }
+
+            ApplyForce(totalForce);
+
+            //checks if food has been found
+            if (manager.fishFoodList.Count > 0)
+            {
+                //checks distance between fish and food
+                float foodDist = Vector3.Distance(transform.position, manager.fishFoodList[0].transform.position);
+
+                //if within range
+                if (foodDist <= 0.2)
+                {
+                    foundFood = true;
+
+                    //deletes food
+                    Destroy(manager.fishFoodList[0]);
+                    manager.fishFoodList.RemoveAt(0);
+                }
+            }
+
+            //transitions back to wandering
+            if (foundFood)
+            {
+                timer = Random.Range(10, 25);
+                maxSpeed = 5f;
+                state = "wander";
+            }
+        }
 
         // Calculate the velocity for this frame
         velocity += acceleration * Time.deltaTime;
@@ -110,9 +144,4 @@ public class fish1 : agent
         }
         return steeringForce;
     }
-
-    //method for eating food
-    //loop through food list, check if distance to one is zero
-    //if so, change fish state, reset hunger timer, destroy object from list. check abt specifics for making it null. should
-    //be as easy as just checking the spot on the list.
 }

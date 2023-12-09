@@ -18,11 +18,17 @@ public class AgentManager : MonoBehaviour
     [SerializeField]
     public List<obstacle> obstacles;
 
+    //List of current food
+    public List<GameObject> fishFoodList;
+
     [SerializeField]
     private GameObject fishType1;
 
     [SerializeField]
     private GameObject fishType2;
+
+    [SerializeField]
+    private GameObject fishFood;
 
     //Number of each type of fish to spawn
     [SerializeField]
@@ -59,14 +65,26 @@ public class AgentManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //TODO: detecting click method
+        //checks for player click
+        playerClick();
     }
 
-    //method here for user click
-    //checks for click each frame
-    //if click detected, get mouse position (check to ensure it's something that translates properly to coordinates)
-    //if I can't get position right, could do random from the top
-    //instantiate a piece of food
-    //add food to gameobject list
+    //spawns food at a random location whenever the user clicks
+    void playerClick()
+    {
+        //checks for player click
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector3 screenPosition = Vector3.zero;
+            Vector3 worldPosition = Vector3.zero;
+
+            //Gets mouse position
+            screenPosition = Input.mousePosition;
+            worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
+
+            //instantiates fish food at click location
+            fishFoodList.Add(Instantiate(fishFood, new Vector2(worldPosition.x, worldPosition.y), Quaternion.identity));
+        }
+    }
 }   
 
