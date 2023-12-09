@@ -1,8 +1,4 @@
-# Project _NAME_
-
-[Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Here-Cheatsheet)
-
-_REPLACE OR REMOVE EVERYTING BETWEEN "\_"_
+# Project Fish Tank
 
 ### Student Info
 
@@ -15,9 +11,8 @@ others of its kind, and will occasionally chase away other fish that get too clo
 
 ### Controls
 
--   _List all of the actions the player can have in your simulation_
-    -   _Include how to preform each action ( keyboard, mouse, UI Input )_
-    -   _Include what impact an action has in the simulation ( if is could be unclear )_
+- Left mouse click
+      -Places food at the position of the mouse. The fish will seek and eat the food when they're hungry.
 
 ## Small Fish
 
@@ -25,14 +20,13 @@ A small, peaceful fish. It sticks together with others, and must be
 fed by the user.
 
 ### Wander and flock
-The fish wander around, avoiding obstacles and generally staying near other small fish. It also flees from jellyfish if
-it's being chased by one.
+The fish wander around, avoiding obstacles and generally staying near other small fish.
 
 #### Steering Behaviors
 
 - Wander
 - Cohesion
-- Flee (from jellyfish)
+- Staying in bounds
 - Obstacles - Avoids seaweed and rocks
 - Seperation - Separates from other small fish
    
@@ -51,9 +45,9 @@ it prioritizes finding food.
 #### Steering Behaviors
 
 - Wander
-- Seek (Food) (The weight applied to this force is higher than in the default state)
-- Flee (jellyfish)
-- Obstacles - _List all obstacle types this state avoids_
+- Seek (Food)
+- Staying in bounds
+- Obstacles - Avoids seaweed and rocks
 - Seperation - Separates from other small fish
    
 #### State Transistions
@@ -71,6 +65,7 @@ The jellyfish wanders the tank, avoiding obstacles and other jellyfish.
 #### Steering Behaviors
 
 - Wander
+- Stays in bounds
 - Obstacles - avoids seaweed and rocks
 - Seperation - this agent separates from other jellyfish.
    
@@ -85,6 +80,7 @@ jellyfish loses interest (chase timer runs out).
 
 #### Steering Behaviors
 
+- Stays in bounds
 - Seek (small fish)
 - Obstacles - avoids seaweed and rocks
 - Seperation - separates from other jellyfish
@@ -101,9 +97,9 @@ Creating own assets (environment, obstacles, fish)
 
 ## Known Issues
 
-_List any errors, lack of error checking, or specific information that I need to know to run your program_
+Slight blind spot with obstacle avoidance. Most noticeable with the seaweed--when fish are between the screen edge and the seaweed they'll move right through the seaweed.
 
 ### Requirements not completed
 
-_If you did not complete a project requirement, notate that here_
+
 
