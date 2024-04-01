@@ -44,8 +44,6 @@ public class agent : MonoBehaviour
 
     public List<Vector3> foundObstacles = new List<Vector3>();
 
-    //TODO: add spriteRenderer
-
     //applies forces to object
     public void ApplyForce(Vector3 force)
     {
